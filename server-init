@@ -1,0 +1,470 @@
+#!/bin/bash
+# /etc/init.d/minecraft
+# version 2012-10-04 (YYYY-MM-DD)
+
+### BEGIN INIT INFO
+# Provides: minecraft
+# Required-Start: $local_fs $remote_fs
+# Required-Stop: $local_fs $remote_fs
+# Should-Start: $network
+# Should-Stop: $network
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Minecraft server
+# Description: Starts the CraftBukkit Minecraft server
+### END INIT INFO
+
+# minecraft-init-script - An initscript to start Minecraft or CraftBukkit
+# Copyright (C) 2011 - Super Jamie <jamie@superjamie.net>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+# Source function library
+## CentOS/Fedora
+if [ -f /etc/rc.d/init.d/functions ]
+ then
+ . /etc/rc.d/init.d/functions
+fi
+## Ubuntu
+if [ -f /lib/lsb/init-functions ]
+ then
+ . /lib/lsb/init-functions
+fi
+
+## Settings
+# Nice looking name of service for script to report back to users
+SERVERNAME="Minecraft"
+# Filename of server binary
+#SERVICE="forge-1.7.10-10.13.0.1190-universal.jar"
+SERVICE="forge-1.7.10-10.13.0.1190-universal.jar"
+# URL of server executable for update checking - http://cbukk.it/craftbukkit.jar is the recommended latest Craftbukkit URL
+SERVER_URL="http://cbukk.it/craftbukkit.jar"
+# Username of non-root user who will run the server
+USERNAME="minecraft"
+# Path of server binary and world
+MCPATH="/home/minecraft/IC2"
+# Number of CPU cores to thread across if using multithreaded garbage collection
+CPU_COUNT=4
+# Where backups go
+BACKUPPATH="/backup/IC2"
+# Find the world name from the existing server file
+WORLDNAME="$(cat $MCPATH/server.properties | grep -E 'level-name' | sed -e s/.*level-name=//)"
+# Find the port number from the existing server file
+SERVERPORT="$(cat $MCPATH/server.properties | grep -E 'server-port' | sed -e s/.*server-port=//)"
+# Name of Screen session
+SCRNAME="minecraft"
+
+## The Java command to run the server
+
+# Nothing special, just start the server with 1Gb RAM
+#INVOCATION="/bin/java -Xms1024M -Xmx1024M -Djava.net.preferIPv4Stack=true -jar $SERVICE nogui"
+
+# This is what I run my server with. Tune your RAM usage accordingly
+# Tested fastest GC - Default parallel new gen collector, plus parallel old gen collector
+
+
+
+INVOCATION="java -server -Xincgc -Xmx20G -Xms8G -Xmn1G -XX:PermSize=256m -Djava.net.preferIPv4Stack=true -XX:NewRatio=2 -XX:CMSFullGCsBeforeCompaction=1 -XX:SoftRefLRUPolicyMSPerMB=2048 -XX:+CMSParallelRemarkEnabled -XX:+UseParNewGC -XX:+DisableExplicitGC -Xnoclassgc -oss4M -ss4M -XX:+UseFastAccessorMethods -XX:CMSInitiatingOccupancyFraction=90 -XX:+UseConcMarkSweepGC -XX:UseSSE=4 -XX:+UseCMSCompactAtFullCollection -XX:ParallelGCThreads=$CPU_COUNT -XX:+AggressiveOpts -XX:ReservedCodeCacheSize=1G -Dfml.queryResult=confirm -jar $SERVICE nogui"
+
+#INVOCATION="java -server -Xincgc -Xmx20G -Xms8G -Xmn1G -Djava.net.preferIPv4Stack=true -XX:+UseParNewGC -XX:+DisableExplicitGC -XX:+UseFastAccessorMethods -XX:+UseConcMarkSweepGC -XX:UseSSE=4 -XX:ParallelGCThreads=$CPU_COUNT -XX:+AggressiveOpts -jar $SERVICE nogui"
+
+#INVOCATION="java -server  -Djava.security.ed=file:/dev/urandom -Xincgc -Xmx16G -Xms8G -Xmn1G -XX:+UseParNewGC -XX:+DisableExplicitGC -XX:+UseFastAccessorMethods -XX:+UseConcMarkSweepGC -XX:UseSSE=4 -XX:ParallelGCThreads=$CPU_COUNT -XX:+AggressiveOpts -XX:PermSize=512m -jar $SERVICE nogui"
+
+#INVOCATION="java -Xms16G -Xmx20G -Xmn2G -XX:PermSize=512m -XX:NewRatio=3 -XX:SurvivorRatio=3 -XX:TargetSurvivorRatio=80 -XX:MaxTenuringThreshold=8 -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:MaxGCPauseMillis=10 -XX:GCPauseIntervalMillis=50 -XX:MaxGCMinorPauseMillis=7 -XX:+ExplicitGCInvokesConcurrent -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=60 -XX:+BindGCTaskThreadsToCPUs -Xnoclassgc -jar $SERVICE nogui"
+
+
+# Add HugePage support if you have it configured on the OS
+# -XX:+UseLargePages
+
+## Runs all commands as the non-root user
+
+as_user() {
+  ME=$(whoami)
+  if [ $ME == $USERNAME ]
+  then
+bash -c "$1"
+  else
+su - $USERNAME -c "$1"
+  fi
+}
+
+## Check if the server is running or not, and get PID if it is
+
+server_running() {
+  if ps ax | grep -v grep | grep -iv SCREEN | grep $SERVICE > /dev/null
+  then
+PID=0
+    PID="$(ps ax | grep -v grep | grep -iv SCREEN | grep $SERVICE | awk '{print $1}')"
+    return 0
+  else
+return 1
+  fi
+}
+
+
+## Start the server executable as a service
+
+mc_start() {
+  if server_running
+  then
+echo " * [ERROR] $SERVERNAME was already running! (pid $PID)"
+    exit 1
+  else
+echo " * $SERVERNAME was not already running. Starting..."
+    echo " * Using map named \"$WORLDNAME\"..."
+    as_user "cd \"$MCPATH\" && screen -c /dev/null -dmS $SCRNAME $INVOCATION"
+    sleep 5
+    echo " * Checking $SERVERNAME is running..."
+
+    if server_running
+    then
+echo " * [OK] $SERVERNAME is now running. (pid $PID)"
+    else
+echo " * [ERROR] Could not start $SERVERNAME."
+      exit 1
+    fi
+
+fi
+}
+
+## Stop the executable
+
+mc_stop() {
+  if server_running
+  then
+echo " * $SERVERNAME is running (pid $PID). Commencing shutdown..."
+    echo " * Notifying users of shutdown..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"say §5SERVER SHUTTING DOWN IN 10 SECONDS. Saving map...\"\015'"
+    echo " * Saving map named \"$WORLDNAME\" to disk..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"save-all\"\015'"
+    sleep 10
+    echo " * Stopping $SERVERNAME..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"stop\"\015'"
+    sleep 10
+  else
+echo " * [ERROR] $SERVERNAME was not running!"
+    exit 1
+  fi
+
+if server_running
+  then
+echo " * [ERROR] $SERVERNAME could not be shutdown! Still running..."
+    exit 1
+  else
+echo " * [OK] $SERVERNAME is shut down."
+  fi
+}
+
+## Set the server read-only, save the map, and have Linux sync filesystem buffers to disk
+
+mc_saveoff() {
+  if server_running
+  then
+echo " * $SERVERNAME is running. Commencing save..."
+    echo " * Notifying users of save..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"say Server going read-only...\"\015'"
+    echo " * Setting server read-only..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"save-off\"\015'"
+    echo " * Saving map named \"$WORLDNAME\" to disk..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"save-all\"\015'"
+    sync
+    sleep 10
+    echo " * [OK] Map saved."
+  else
+echo " * [ERROR] $SERVERNAME was not running. Not suspending saves."
+    exit 1
+  fi
+}
+
+## Set the server read-write
+
+mc_server_restart() {
+  if server_running
+  then
+     as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"say §5SERVER Daily Restart in 60 Secs...\"\015'"
+  fi
+}
+
+mc_saveon() {
+  if server_running
+  then
+echo " * $SERVERNAME is running. Re-enabling saves..."
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"say Server going read-write...\"\015'"
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"save-on\"\015'"
+  else
+echo " * [ERROR] $SERVERNAME was not running. Not resuming saves."
+    exit 1
+  fi
+}
+
+mc_saveall() {
+  if server_running
+  then
+echo " * $SERVERNAME is running. saving all"
+    as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"save-all\"\015'"
+  else
+echo " * [ERROR] $SERVERNAME was not running. Not resuming saves."
+    exit 1
+  fi
+}
+
+## Checks for update, exits if update not required, updates if the server is not running
+
+mc_updatecheck() {
+  echo " * Downloading latest $SERVERNAME executable..."
+  as_user "cd \"$MCPATH\" && curl -# -L -o \"$MCPATH/$SERVICE.update\" \"$SERVER_URL\""
+
+  if [ -f "$MCPATH/$SERVICE.update" ]
+  then
+echo " * Checking downloaded update against existing server..."
+
+    if $(diff "$MCPATH/$SERVICE" "$MCPATH/$SERVICE.update" >/dev/null)
+    then
+echo " * You are already running the latest version of $SERVERNAME!"
+      exit 0; # keep this exit in as we don't need to do anything
+    fi
+
+else
+echo " * [ERROR] $SERVERNAME update could not be downloaded."
+    exit 1
+  fi
+
+if server_running
+  then
+echo " * $SERVERNAME is running (pid $PID). Shutting down for update..."
+  else
+as_user "/bin/cp \"$MCPATH/$SERVICE.update\" \"$MCPATH/$SERVICE\""
+    echo " * [OK] $SERVERNAME successfully updated."
+  fi
+}
+
+## Actually do the executable update
+
+mc_updatedo() {
+  if server_running
+  then
+echo " * [ERROR] $SERVICE is still running (pid $PID)! Cannot update."
+    exit 1
+  else
+as_user "/bin/cp \"$MCPATH/$SERVICE.update\" \"$MCPATH/$SERVICE\""
+    echo " * [OK] $SERVERNAME successfully updated."
+  fi
+}
+
+## Backs up map by rsyncing current world to backup location, creates tar.gz with datestamp
+
+mc_backupmap() {
+  as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"say §5SERVER BACKUP STARTING.\"\015'"
+  echo " * Backing up $SERVERNAME map named \"$WORLDNAME\"..."
+  echo " * Syncing \"$MCPATH/$WORLDNAME\" to \"$BACKUPPATH/$WORLDNAME\""
+  #as_user "cd \"$MCPATH\" && rsync -cghLoprtu \"$WORLDNAME\" \"$BACKUPPATH\""
+  as_user "cd /home/minecraft  && rsync -cghLoprtu --exclude "dynmap" --delete IC2 \"$BACKUPPATH\""
+  sleep 30
+  echo " * Creating compressed backup..."
+  NOW="$(date +%Y-%m-%d.%H-%M-%S)"
+  # Create a compressed backup file and background it so we can get back to restarting the server
+  # You can tell when the compression is done as it makes an md5sum file of the backup
+  as_user "cd \"$BACKUPPATH\" && tar cfz \"$WORLDNAME_backup_$NOW.tar.gz\" IC2 && md5sum \"$WORLDNAME_backup_$NOW.tar.gz\" > \"$WORLDNAME_backup_$NOW.tar.gz.md5\" &"
+  # we can safely background the above command and get back to restarting the server
+  echo " * [OK] Backed up map."
+  as_user "screen -p 0 -S $SCRNAME -X eval 'stuff \"say §5SERVER BACKUP ENDED.\"\015'"
+}
+
+## Backs up executable by copying it to backup location
+
+mc_backupexe() {
+  echo " * Backing up the $SERVERNAME server executable..."
+  as_user "cd \"$MCPATH\" && cp \"$SERVICE\" \"$BACKUPPATH/$SERVICE_backup_$NOW.jar\""
+  echo " * [OK] Backed up executable."
+}
+
+## Removes any backups older than 2 days, designed to be called by daily cron job
+
+mc_removeoldbackups() {
+  NUMBEROFBACKUPS="$(find \"$BACKUPPATH\" -name \"$WORLDNAME_backup*\" -type f -mtime +7 | wc -l)"
+  if [ "$NUMBEROFBACKUPS" -ge 1 ]
+  then
+echo " * Removing map backups older than 2 days..."
+    as_user "cd \"$BACKUPPATH\" && find . -name \"$WORLDNAME_backup*\" -type f -mtime +2 | xargs rm -fv"
+    echo " * Removed old map backups."
+  else
+echo " * No map backups older than 2 days to remove."
+  fi
+
+NUMBEROFEXES="$(find \"$BACKUPPATH\" -name \"$SERVICE_backup*\" -type f -mtime +7 | wc -l)"
+  if [ "$NUMBEROFEXES" -ge 1 ]
+  then
+echo " * Removing executable backups older than 2 days..."
+    as_user "cd \"$BACKUPPATH\" && find . -name \"$SERVICE_backup*\" -type f -mtime +2 | xargs rm -fv"
+    echo " * Removed old executable backups."
+  else
+echo " * No executable backups older than 2 days to remove."
+  fi
+}
+
+## Rotates logfile to server.1 through server.7, designed to be called by daily cron job
+
+mc_logrotate() {
+  # Server logfiles in chronological order
+  LOGLIST=$(ls -r $MCPATH/server.log* | grep -v lck)
+  # How many logs to keep
+  COUNT=6
+  # Look at all the logfiles
+  for i in $LOGLIST; do
+LOGTMP=$(ls $i | cut -d "." -f 3)
+    # If we're working with server.log then append .1
+    if [ -z $LOGTMP ]
+    then
+LOGTMP="$MCPATH/server.log"
+      LOGNEW="$LOGTMP.1"
+      as_user "/bin/cp $MCPATH/server.log $LOGNEW"
+    # Otherwise, check if the file number is under $COUNT
+    elif [ $LOGTMP -gt $COUNT ]
+    then
+      # If so, delete it
+      as_user "rm -f $i"
+    else
+      # Otherwise, add one to the number
+      LOGBASE=$(ls $i | cut -d "." -f 1-2)
+      LOGNEW=$LOGBASE.$(($LOGTMP+1))
+      as_user "/bin/cp $i $LOGNEW"
+    fi
+done
+  # Blank the existing logfile to renew it
+  as_user "echo -n \"\" > $MCPATH/server.log"
+}
+
+## Check if server is running and display PID
+
+mc_status() {
+  if server_running
+  then
+echo " * $SERVERNAME (pid $PID) is running..."
+  else
+echo " * $SERVERNAME is not running."
+    exit 1
+  fi
+}
+
+## Display some extra environment informaton
+
+mc_info() {
+  if server_running
+  then
+RSS="$(ps -p $PID --format rss | tail -n 1)"
+    echo " - Java Path : $(readlink -f $(which java))"
+    echo " - Start Command : $INVOCATION"
+    echo " - Server Path : $MCPATH"
+    echo " - World Name : $WORLDNAME"
+    echo " - Process ID : $PID"
+    echo " - Screen Session : $SCRNAME"
+    echo " - Memory Usage : $[$RSS/1024] Mb ($RSS kb)"
+  # Check for HugePages support in kernel, display statistics if HugePages are in use, otherwise skip
+  if [ -n "$(cat /proc/meminfo | grep HugePages_Total | awk '{print $2}')" -a "$(cat /proc/meminfo | grep HugePages_Total | awk '{print $2}')" -gt 0 ]
+  then
+HP_SIZE="$(cat /proc/meminfo | grep Hugepagesize | awk '{print $2}')"
+    HP_TOTAL="$(cat /proc/meminfo | grep HugePages_Total | awk '{print $2}')"
+    HP_FREE="$(cat /proc/meminfo | grep HugePages_Free | awk '{print $2}')"
+    HP_RSVD="$(cat /proc/meminfo | grep HugePages_Rsvd | awk '{print $2}')"
+    HP_USED="$[$HP_TOTAL-$HP_FREE+$HP_RSVD]"
+    TOTALMEM="$[$RSS+$[$HP_USED*$HP_SIZE]]"
+    echo " - HugePage Usage : $[$HP_USED*$[$HP_SIZE/1024]] Mb ($HP_USED HugePages)"
+    echo " - Total Memory Usage : $[$TOTALMEM/1024] Mb ($TOTALMEM kb)"
+  fi
+echo " - Active Connections : "
+    netstat -tna | grep -E "Proto|$SERVERPORT"
+  else
+echo " * $SERVERNAME is not running."
+    exit 1
+  fi
+}
+ 
+## Connect to the active Screen session, disconnect with Ctrl+a then d
+
+mc_console() {
+  if server_running
+  then
+as_user "screen -S $SCRNAME -dr"
+  else
+echo " * [ERROR] $SERVERNAME was not running!"
+    exit 1
+  fi
+}
+
+## These are the parameters passed to the script
+
+case "$1" in
+  start)
+ mc_start
+ ;;
+  stop)
+ mc_stop
+ ;;
+  notice)
+ mc_server_restart
+ ;;
+  saveall)
+ #mc_saveoff
+ mc_saveall
+ #mc_saveon
+ ;;
+  restart)
+ mc_server_restart
+ sleep 5
+ mc_stop
+ sleep 1
+ mc_start
+ ;;
+  update)
+ mc_updatecheck
+ mc_stop
+ mc_backupmap
+ mc_backupexe
+ mc_updatedo
+ mc_start
+ ;;
+  backup)
+ mc_saveoff
+ mc_backupmap
+ mc_backupexe
+ mc_saveon
+ ;;
+  status)
+ mc_status
+ ;;
+  info)
+ mc_info
+ ;;
+  console)
+ mc_console
+ ;;
+# These are intended for cron usage, not regular users.
+  removeoldbackups)
+ mc_removeoldbackups
+ ;;
+  logrotate)
+ mc_logrotate
+ ;;
+# Debug usage only
+  justbackup) # don't use this while the server is running!!!
+ mc_backupmap
+ mc_backupexe
+ ;;
+  *)
+ echo " * Usage: minecraft {start|stop|restart|backup|update|status|info|console}"
+ exit 1
+ ;;
+esac
+
+exit 0
