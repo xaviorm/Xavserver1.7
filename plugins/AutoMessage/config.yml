@@ -1,0 +1,66 @@
+#  ----------------------------------------------------
+#  AutoMessage Configuration File
+#  ----------------------------------------------------
+#  Message Configuration:
+#     Messages are handled in lists to allow for advanced customization!
+#     Feel free to add color codes by using & in your messages!
+#     To split a message onto multiple lines use the \n delimiter!
+#     Lines starting with / will be run as a command!
+#     To add single apostrophes into a message use ''.
+#     For a complete tutorial go to http://dev.bukkit.org/server-mods/automessage.
+#     If you are unfamiliar with YAML use the in-game commands: /am help
+
+settings:
+  enabled: true
+  min-players: 0
+  log-to-console: true
+message-lists:
+  vip:
+    enabled: false
+    interval: 45
+    expiry: -1
+    random: false
+    messages:
+    - This message will be displayed only to users with \nautomessage.receive.vip!
+  default:
+    enabled: true
+    interval: 1800
+    expiry: -1
+    random: true
+    messages:
+    - There are {ONLINE} players online!
+    - Did you check the &awiki&f before you asked that question?
+    - Don't go in other peoples bases when they are not home. \n You might Die.
+    - If you &4Die&6 in Nick's house. \nBummer.
+    - This downpour brought to you by Madxmike. &c#BlameMike&f
+    - Die in a &cFire&6....Today!
+    - '"You have a rubber?" -BJMC'
+    - '&aBitches&f love &9Cake&7'
+    - As long as you're baked, it's all good! -- &5Xaviorm
+    - This Message brought to you by &bSPAM. &c#BlameMike
+    - It works because &kMagic
+    - Because &8Bats&f!
+    - Fuck World Wide Grammar Day.
+    - No sea un &5Dick!
+    - '&2Welcome to &5Internet&2!'
+    - '&3Mess with the best...\n&3Die like &4Mike.  &c#BlameMike'
+    - Hit that &bFollow&6 button.
+    - Saddle up for adventure with &bTwilight Sparkle&6 & friends!
+    - If you find Nick's Base. You are probably dead anyway.
+    - Only Stoners play the Tuba. \nJust say no to Tuba!
+    - '&cAlert! &6User Error.\nPlease replace user and press any key to continue.'
+    - He may look like an idiot and talk like an idiot but don’t let that fool you.\nHe really is an idiot.
+    - Man with hole in pocket, feel cocky all day.
+    - Sometimes people deserve a high five, in the face, with a chair.
+    - There is a fine line between fishing and just standing on the shore like an idiot.
+    - Sorry, I’m allergic to bullshit.
+    - Keep talking, someday you’ll say something intelligent.
+    - Fear the &8Batman&6!
+    - '&cBane&6 plays the Tuba!'
+    - In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move.
+    - When Chuck Norris laughs too hard while drinking milk, he accidently shits a cow.
+    - Yo momma's so hairy she looks like a chia pet with a sweater on.
+    - Fear is the mind-killer.
+    - Yo momma’s so ugly, her  birth certificate is an apology letter from the condom factory.
+    - You are going to die Clown!
+    - '"I am a poem and I did not know it" - Hab'

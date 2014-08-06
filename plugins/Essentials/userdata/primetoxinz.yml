@@ -1,0 +1,23 @@
+uuid: ec18f39a-0a48-4e5b-808a-becae2546547
+timestamps:
+  login: 1406743734492
+  jail: 0
+  logout: 1406743939333
+  lastteleport: 1406607090314
+ipAddress: 192.168.1.11
+lastlocation:
+  world: flatworld
+  x: -178.7220002145682
+  y: 4.0
+  z: 158.06919664902173
+  yaw: -9.891754
+  pitch: 24.900005
+jailed: false
+godmode: true
+logoutlocation:
+  world: newworld
+  x: 1758.8891358016274
+  y: 4.0
+  z: -445.98270926611815
+  yaw: -229.05002
+  pitch: 43.199986

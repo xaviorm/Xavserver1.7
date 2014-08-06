@@ -1,0 +1,20 @@
+uuid: 7ee0b2e0-5ae2-409e-8246-f12a15f39f78
+timestamps:
+  login: 1406597721647
+  logout: 1406150257580
+  lastteleport: 1406598237365
+ipAddress: 74.215.107.27
+lastlocation:
+  world: flatworld
+  x: -301.5
+  y: 5.0
+  z: 240.5
+  yaw: -127.79985
+  pitch: 86.24998
+logoutlocation:
+  world: flatworld
+  x: -187.8449584057982
+  y: 16.952229643736146
+  z: -834.1903083407437
+  yaw: -124.20001
+  pitch: 8.850001

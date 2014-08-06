@@ -1,0 +1,25 @@
+ban:
+  reason: '§4Banned:
+
+    §rThe Ban Hammer has spoken!'
+  timeout: 0
+uuid: 6670da8a-7b31-44c2-988b-1cf5b7886db8
+timestamps:
+  login: 1406693202960
+  logout: 1406692641144
+ipAddress: 76.0.191.52
+lastlocation:
+  world: newworld
+  x: -779.5116059727953
+  y: 4.0
+  z: 705.4079366646761
+  yaw: -94.65001
+  pitch: 29.400002
+godmode: true
+logoutlocation:
+  world: newworld
+  x: -779.5116059727953
+  y: 4.0
+  z: 705.4079366646761
+  yaw: -94.65001
+  pitch: 29.400002

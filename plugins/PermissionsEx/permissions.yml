@@ -1,0 +1,460 @@
+groups:
+  default:
+    permissions:
+    - command.veinminer.*
+    - automessage.receive.default
+    - modifyworld.login
+    - -modifyworld.blocks.(place|interact|destroy|craft).(10:11:46)
+    - -modifyworld.blocks.(place|interact|destroy|craft).(1123|1124|1125):*
+    - -modifyworld.damage.take.outofworld
+    - -modifyworld.damage.deal.player.*
+    - modifyworld.*
+    - simplemail.inbox
+    - simplemail.outbox
+    - simplemail.sendmail
+    - -simplemail.admin
+    - -chatmanager.chat.global
+    - -chatmanager.chat.color
+    - -chatmanager.chat.magic
+    - -chatmanager.chat.bold
+    - -chatmanager.chat.strikethrough
+    - -chatmanager.chat.underline
+    - -chatmanager.chat.italic
+    - -essentials.fly.safelogin
+    - essentials.home
+    - essentials.list
+    - essentials.help
+    - essentials.kit
+    - essentials.kits.*
+    - essentials.spawn
+    - am2.commands.ConfigureAMUICommand
+    - chatmanager.*
+    - chatex.*
+    options:
+      prefix: '&6[&dTourist&6]&f'
+      default: true
+  members:
+    inheritance:
+    - default
+    permissions:
+    - tjnerf
+    - Alyze
+    - veinminer.*
+    - command.veinminer.*
+    - deathcounter.core.CommandDeathCounter
+    - citizens.npc.*
+    - cofh.command.CommandHandler
+    - forestry.mail.CommandMail
+    - lastlog.*
+    - -modifyworld.blocks.(place|interact|destroy|craft).(1123|1124|1125):*
+    - modifyworld.damage.deal.*
+    - modifyworld.damage.take.outofworld
+    - worldedit.wand
+    - worldedit.wand.toggle
+    - worldguard.region.claim
+    - worldguard.region.list.*
+    - worldguard.region.info.*
+    - worldguard.region.flag.flags.pvp.own.*
+    - worldguard.region.flag.flags.lighter.own.*
+    - worldguard.region.flag.flags.use.own.*
+    - worldguard.region.flag.flags.chest-access.own.*
+    - worldguard.region.flag.flags.greeting.own.*
+    - worldguard.region.flag.flags.farewell.own.*
+    - worldguard.region.flag.flags.tnt.own.*
+    - worldguard.region.flag.flags.water-flow.own.*
+    - worldguard.region.flag.flags.lavaflow.own.*
+    - worldguard.region.flag.flags.fire-spread.own.*
+    - worldguard.region.flag.flags.notify-greet.own.*
+    - worldguard.region.flag.flags.notify-farewell.own.*
+    - worldguard.region.flag.flags.deny-spawn.own.*
+    - worldguard.region.flag.flags.creeper-explosion.own.*
+    - worldguard.region.flag.flags.lava-fire.own.*
+    - essentials.time
+    - essentials.back
+    - essentials.home
+    - essentials.sethome
+    - essentials.delhome
+    - essentials.sethome.multiple
+    - essentials.afk
+    - essentials.afk.auto
+    - essentials.mail
+    - essentials.mail.send
+    - essentials.mail.sendall
+    - essentials.me
+    - essentials.motd
+    - essentials.msg
+    - essentials.msg.color
+    - essentials.msg.format
+    - essentials.msg.magic
+    - essentials.msg.url
+    - essentials.nick
+    - essentials.nick.color
+    - essentials.nick.format
+    - essentials.nick.magic
+    - essentials.suicide
+    - essentials.enderchest
+    - essentials.ping
+    - essentials.warp
+    - essentials.warp.list
+    - essentials.warps.*
+    - essentials.chat.color
+    - essentials.chat.format
+    - essentials.chat.magic
+    - chatmanager.*
+    options:
+      prefix: '&6[&2Member&6]&f'
+  veterans:
+    inheritance:
+    - members
+    permissions:
+    - veinminer.*
+    - command.veinminer.*
+    - modifyworld.*
+    - org.dynmap.forge.DmarkerCommand
+    - worldguard.region.flag.flags.pvp.member.*
+    - worldguard.region.flag.flags.lighter.member.*
+    - worldguard.region.flag.flags.use.member.*
+    - worldguard.region.flag.flags.chest-access.member.*
+    - worldguard.region.flag.flags.greeting.member.*
+    - worldguard.region.flag.flags.farewell.member.*
+    - worldguard.region.flag.flags.tnt.member.*
+    - worldguard.region.flag.flags.water-flow.member.*
+    - worldguard.region.flag.flags.lavaflow.member.*
+    - worldguard.region.flag.flags.fire-spread.member.*
+    - worldguard.region.flag.flags.notify-greet.member.*
+    - worldguard.region.flag.flags.notify-farewell.member.*
+    - worldguard.region.flag.flags.deny-spawn.member.*
+    - worldguard.region.flag.flags.creeper-explosion.member.*
+    - worldguard.region.flag.flags.lava-fire.member.*
+    options:
+      prefix: '&6[&3Veteran&6]&f'
+  admins:
+    inheritance:
+    - veterans
+    permissions:
+    - cofh.*
+    - me.nallar.tickprofiler.minecraft.commands.ProfileCommand
+    - -essentials.fly.safelogin
+    - citizens.*
+    - mcp.mobius.opis.commands.*
+    - drzhark.mocreatures.command.*
+    - vanilla.command.scoreboard
+    - permissions.*
+    - net.minecraftforge.server.command.*
+    - worldguard.*
+    - com.*
+    - net.blay09.mods.eirairc.*
+    - irc.*
+    options:
+      prefix: '&6[&9Admin&6]&f'
+  serverowner:
+    inheritance:
+    - admins
+    permissions:
+    - cofh.*
+    - -essentials.fly.safelogin
+    - '*'
+    - essentials.*
+    - vanilla.command.*
+    - net.minecraftforge.server.*
+    - am2.*
+    - ic2.*
+    - forestry.*
+    - codechicken.*
+    - factorization.*
+    - hats.*
+    - buildcraft.*
+    - twilightforest.*
+    - net.machinemuse.*
+    - miscperipherals.*
+    - portalgun.*
+    - mrtjp.*
+    - extrautils.*
+    options:
+      prefix: '&6[&5Owner&6]&f'
+users:
+  Spccrow:
+    group:
+    - admins
+    options:
+      prefix: '&6[&aAdmin&6]&f'
+  Jan123_123:
+    group:
+    - veterans
+    options:
+      prefix: '&6[&9Quatros&6]&f'
+  rats3g:
+    group:
+    - members
+    options:
+      prefix: '&6[&eCrash&6]&f'
+  Phayder:
+    group:
+    - members
+    options:
+      prefix: '&6[&eReally?&6]&f'
+  Jarred412:
+    group:
+    - members
+  iBCreature:
+    group:
+    - members
+    options:
+      prefix: '&6[&dHowGamersPlay&6]&f'
+  zigaboo99:
+    group:
+    - veterans
+  fred1975:
+    group:
+    - members
+  Tar_Ogre:
+    group:
+    - members
+  Server:
+    group:
+    - owner
+  ashram:
+    group:
+    - veterans
+  ashran:
+    group:
+    - veterans
+  Rage301:
+    group:
+    - members
+    options:
+      prefix: '&6[&1Vagabond&6]&f'
+  Promackid:
+    group:
+    - members
+  BlackCamelBoy:
+    group:
+    - members
+  nursekami:
+    group:
+    - veterans
+    options:
+      prefix: '&6[&dTeamBoobies&6]&f'
+  Asharn:
+    group:
+    - veterans
+  Demro:
+    group:
+    - members
+  Pumpuli:
+    group:
+    - members
+  sabishii:
+    group:
+    - members
+  Tlacatecolototl:
+    group:
+    - members
+  Borntobubble:
+    group:
+    - members
+  finnyellowbelly:
+    group:
+    - members
+  XxElementationxX:
+    group:
+    - members
+  Jerichai:
+    group:
+    - veterans
+  davilmoney125:
+    group:
+    - members
+  Beltian:
+    group:
+    - members
+  lakilla21:
+    group:
+    - members
+  Epicworlds:
+    group:
+    - members
+  davilmoney123:
+    group:
+    - members
+  RottingLepha:
+    group:
+    - members
+  Joeonetwo:
+    group:
+    - members
+  Andylan805:
+    group:
+    - members
+  ty17209:
+    group:
+    - members
+  Jacob32497:
+    group:
+    - members
+  rianasaurus:
+    group:
+    - members
+  padonater:
+    group:
+    - members
+  Deqamy:
+    group:
+    - members
+  _RedFog_:
+    group:
+    - members
+  tomtom808:
+    group:
+    - members
+  ZOMBIESLAYER727:
+    group:
+    - members
+  PRIMTOXINZ:
+    options:
+      prefix: '&6[&2TestBitch&6]'
+    group:
+    - serverowner
+  halleluhja:
+    group:
+    - members
+  xXkyleXx:
+    group:
+    - members
+  hellishinc:
+    group:
+    - members
+  imnotweird_01:
+    group:
+    - members
+  Wvoulfe:
+    group:
+    - members
+  Squizzer_:
+    group:
+    - members
+  Nny:
+    group:
+    - members
+  v3tshdh:
+    group:
+    - members
+  _30:
+    group:
+    - members
+  Luskyz:
+    group:
+    - members
+  keeper_131:
+    group:
+    - members
+  i_own_creepers:
+    group:
+    - members
+  sep18:
+    group:
+    - members
+  hduhe18:
+    group:
+    - members
+  miner_matthew:
+    group:
+    - members
+  Bradley091:
+    group:
+    - members
+  MechBot9971:
+    group:
+    - members
+  Kixzoh:
+    group:
+    - members
+  Alyze:
+    group:
+    - members
+  tjnerf:
+    group:
+    - members
+  15a653e1-7cb7-4e76-a4ef-13ab099b7cc3:
+    group:
+    - serverowner
+    options:
+      prefix: '&6[&5Owner&6]&f'
+      name: Xaviorm
+  d20b5bc5-a632-48bb-a040-1f3f66478de7:
+    group:
+    - veterans
+    options:
+      prefix: '&6[&cCapt.Jack&6]&f'
+      name: Madxmike
+  7ee0b2e0-5ae2-409e-8246-f12a15f39f78:
+    group:
+    - veterans
+    permissions:
+    - '*.veinminer.*'
+    options:
+      prefix: '&6[&cCommunist&6]&f'
+      name: Habitablenut59
+  4f58f530-d441-428c-9a4c-ff86cc2ad1b4:
+    group:
+    - veterans
+    options:
+      prefix: '&6[&9Noob&6]&f'
+      name: Subnotic
+  ec18f39a-0a48-4e5b-808a-becae2546547:
+    group:
+    - serverowner
+    permissions:
+    - cofh.*
+    - essentials.gamemode
+    - minecraft.command.op
+    - minecraft.command.gamemode
+    - vanilla.command.gamemode
+    - prefix
+    options:
+      prefix: '&f[&3TestBitch&f]'
+      name: PRIMETOXINZ
+  6670da8a-7b31-44c2-988b-1cf5b7886db8:
+    group:
+    - members
+    permissions:
+    - '*.veinminer.*'
+    - '*.factorzation.*'
+    options:
+      name: DeathDragon58
+  2d336119-6efd-44c5-bb57-11a4a2bb08e7:
+    group:
+    - serverowner
+    - admins
+    options:
+      prefix: '&6[&9Admin&6]&f'
+      name: Lord_Mimir
+  55ff67fd-a55f-4412-adbb-c30fc03af8c6:
+    group:
+    - veterans
+    options:
+      prefix: '&6[&eBatMan&6]&f'
+      name: x_Kurosaki_x
+  7a53daa4-6c83-480c-8fec-7ce2be256eca:
+    group:
+    - members
+    options:
+      name: Kreystan
+  86cdd1b5-e6b2-4199-9a76-018a7b8eac0b:
+    group:
+    - members
+    options:
+      name: carTloyal123
+  c4e8b009-9fb9-4a3c-82d8-cc46dbdfbe3b:
+    group:
+    - admins
+    options:
+      prefix: '&6[&9Lagmaster&6]&f'
+      name: nickierv
+  bbb9f371-649a-4392-b8bb-b07cf2f7a1c7:
+    group:
+    - veterans
+    options:
+      prefix: '&6[&2BlowJob&6]&f'
+      name: bjmc
+schema-version: 1
