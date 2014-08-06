@@ -1,4 +1,9 @@
-Xavserver1.7
-============
+Xaviorm's 1.7 MagiTech Server
+=============================
+[Website](http://xaviormserver.github.io/)
 
-My current Minecraft 1.7 Server
+Current Mods lists
+------------------
+<object data="MODLIST.MD"></object>
+
+    
