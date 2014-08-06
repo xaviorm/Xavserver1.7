@@ -1,0 +1,4 @@
+server.basics:
+    default: true
+    children:
+        automessage.receive.default: true
