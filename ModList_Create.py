@@ -1,7 +1,7 @@
 import os
 
-dropboxDir = os.path.dirname(__file__)
-dropboxModsDir = dropboxDir + "/mods"
+currentDir = os.path.dirname(__file__)
+modsDir = currentDir + "/mods"
 
 with open('Modlist.txt', 'w') as mainfile:
 	for subdir, dirs, files in os.walk(dropboxModsDir):
