@@ -47,6 +47,13 @@ val livingRock = <Botania:livingrock>;
 val handofdeath = <witchery:deathshand>;
 val manaDust = <ThermalFoundation:material:514>;
 val chiselMarble = <chisel:chisel.marble>;
+val abyssalStone = <Railcraft:tile.railcraft.cube:6>;
+val quarriedStone = <Railcraft:tile.railcraft.cube:7>;
+val darkStone  = <orizon:Stone:4>;
+val highStone  = <orizon:Stone:6>;
+
+
+
 //oredictionary
 val oreDiamond = <ore:oreDiamond>;
 val oreRedstone = <ore:oreRedstone>;
@@ -202,4 +209,6 @@ recipes.addShapeless(<orizon:tile.stone.marble:0>,[chiselMarble]);
 furnace.addRecipe(<minecraft:baked_potato>, tiny_potato, 0.5);
 
 
-
+//mekanism
+mods.mekanism.Enrichment.addRecipe(darkStone, abyssalStone);
+mods.mekanism.Enrichment.addRecipe(highStone, quarriedStone);
