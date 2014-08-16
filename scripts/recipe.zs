@@ -20,7 +20,7 @@ val quartz = <minecraft:quartz>;
 val quartz_block = <minecraft:quartz_block>;
 val rose = <minecraft:red_flower>;
 val cobblestone = <minecraft:cobblestone>;
-
+val milk_bottle = <MineFactoryReloaded:item.mfr.milkbottle>;
 
 //Mods
 val soul_hungerdemon = <witchery:ingredient:136>;
@@ -131,6 +131,8 @@ recipes.addShapeless(quartz * 4, [quartz_block]);
 recipes.addShapeless(<appliedenergistics2:item.ItemMultiMaterial:40>,[<BuildCraft|Core:woodenGearItem>]);
 recipes.addShapeless(<BuildCraft|Core:woodenGearItem>,[<appliedenergistics2:item.ItemMultiMaterial:40>]);
 
+recipes.addShaped(<minecraft:cake>, [[milk_bottle,milk_bottle,milk_bottle],[<minecraft:sugar>,<minecraft:egg>,<minecraft:sugar>],[<minecraft:wheat>],<minecraft:wheat>,<minecraft:wheat>]);
+
 recipes.addShaped(green_heart_canister * 2,
 [[soul_hungerdemon, yellow_heart_canister, soul_feardemon],
 [green_heart, nether_star, green_heart],
@@ -212,3 +214,4 @@ furnace.addRecipe(<minecraft:baked_potato>, tiny_potato, 0.5);
 //mekanism
 mods.mekanism.Enrichment.addRecipe(darkStone, abyssalStone);
 mods.mekanism.Enrichment.addRecipe(highStone, quarriedStone);
+mods.mekanism.Crusher.addRecipe(<ThermalFoundation:material:69>,<ThermalFoundation:material:37>);
