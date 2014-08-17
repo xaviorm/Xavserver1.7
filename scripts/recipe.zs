@@ -121,7 +121,7 @@ mods.modtweaker.setLocalization("item.extratic.bucket.filled.molten.osmium.name"
 recipes.remove(imbuing_station);
 recipes.remove(ObsidianTNT);
 recipes.remove(tinyPlanet);
-recipes.remove(<minecraft:ender_chest>);
+//recipes.remove(<minecraft:ender_chest>);
 recipes.remove(<Backpack:backpack:31999>);
 //add recipes
 //template recipes.addShaped(, [[],[],[]]); recipes.addShapeless(,[]);
