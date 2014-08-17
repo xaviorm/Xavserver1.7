@@ -132,7 +132,6 @@ recipes.addShapeless(<appliedenergistics2:item.ItemMultiMaterial:40>,[<BuildCraf
 recipes.addShapeless(<BuildCraft|Core:woodenGearItem>,[<appliedenergistics2:item.ItemMultiMaterial:40>]);
 
 recipes.addShaped(<minecraft:cake>, [[milk_bottle,milk_bottle,milk_bottle],[<minecraft:sugar>,<minecraft:egg>,<minecraft:sugar>],[<minecraft:wheat>],<minecraft:wheat>,<minecraft:wheat>]);
-
 recipes.addShaped(green_heart_canister * 2,
 [[soul_hungerdemon, yellow_heart_canister, soul_feardemon],
 [green_heart, nether_star, green_heart],
