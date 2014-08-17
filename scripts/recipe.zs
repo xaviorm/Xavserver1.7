@@ -131,12 +131,8 @@ recipes.addShapeless(quartz * 4, [quartz_block]);
 recipes.addShapeless(<appliedenergistics2:item.ItemMultiMaterial:40>,[<BuildCraft|Core:woodenGearItem>]);
 recipes.addShapeless(<BuildCraft|Core:woodenGearItem>,[<appliedenergistics2:item.ItemMultiMaterial:40>]);
 
-<<<<<<< HEAD
-//recipes.addShaped(<minecraft:cake>, [[milk_bottle,milk_bottle,milk_bottle],[<minecraft:sugar>,<minecraft:egg>,<minecraft:sugar>],[<minecraft:wheat>],<minecraft:wheat>,<minecraft:wheat>]);
+recipes.addShaped(<minecraft:cake>, [[milk_bottle,milk_bottle,milk_bottle],[<minecraft:sugar>,<minecraft:egg>,<minecraft:sugar>],[<minecraft:wheat>,<minecraft:wheat>,<minecraft:wheat>]]);
 
-=======
-recipes.addShaped(<minecraft:cake>, [[milk_bottle,milk_bottle,milk_bottle],[<minecraft:sugar>,<minecraft:egg>,<minecraft:sugar>],[<minecraft:wheat>],<minecraft:wheat>,<minecraft:wheat>]);
->>>>>>> 518c7668b79cfc1d5051397d93abb5b9b90f579f
 recipes.addShaped(green_heart_canister * 2,
 [[soul_hungerdemon, yellow_heart_canister, soul_feardemon],
 [green_heart, nether_star, green_heart],
