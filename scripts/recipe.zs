@@ -1,4 +1,5 @@
-import mods.modtweaker;
+// modtweaker no longer used in recipies so commented out
+// import mods.modtweaker;
 //Vanilla
 val ingot_iron = <minecraft:iron_ingot>;
 val brewing_stand =  <minecraft:brewing_stand>;
