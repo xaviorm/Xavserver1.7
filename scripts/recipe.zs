@@ -212,6 +212,6 @@ furnace.addRecipe(<minecraft:baked_potato>, tiny_potato, 0.5);
 
 
 //mekanism
-//mods.mekanism.Enrichment.addRecipe(darkStone, abyssalStone);
-//mods.mekanism.Enrichment.addRecipe(highStone, quarriedStone);
-//mods.mekanism.Crusher.addRecipe(<ThermalFoundation:material:69>,<ThermalFoundation:material:37>);
+mods.mekanism.Enrichment.addRecipe(darkStone, abyssalStone);
+mods.mekanism.Enrichment.addRecipe(highStone, quarriedStone);
+mods.mekanism.Crusher.addRecipe(<ThermalFoundation:material:69>,<ThermalFoundation:material:37>);
